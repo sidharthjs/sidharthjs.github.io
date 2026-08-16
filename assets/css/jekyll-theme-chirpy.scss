@@ -21,3 +21,13 @@
 #sidebar .sidebar-bottom .icon-border:last-child {
   display: none;
 }
+
+/* Heading permalinks are useful on desktop but add visual noise on mobile. */
+@media (max-width: 849px) {
+  .content h2 .anchor,
+  .content h3 .anchor,
+  .content h4 .anchor,
+  .content h5 .anchor {
+    display: none;
+  }
+}
