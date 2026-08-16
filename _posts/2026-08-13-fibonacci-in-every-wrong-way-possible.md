@@ -503,6 +503,50 @@ A¹⁶
 
 and combine the powers we need.
 
+In Go, we can represent a `2 × 2` matrix with four integers:
+
+``` go
+type matrix struct {
+    a, b, c, d int
+}
+
+func multiply(x, y matrix) matrix {
+    return matrix{
+        a: x.a*y.a + x.b*y.c,
+        b: x.a*y.b + x.b*y.d,
+        c: x.c*y.a + x.d*y.c,
+        d: x.c*y.b + x.d*y.d,
+    }
+}
+
+func power(base matrix, exponent int) matrix {
+    result := matrix{a: 1, d: 1} // Identity matrix
+
+    for exponent > 0 {
+        if exponent%2 == 1 {
+            result = multiply(result, base)
+        }
+
+        base = multiply(base, base)
+        exponent /= 2
+    }
+
+    return result
+}
+
+func fib(n int) int {
+    if n == 0 {
+        return 0
+    }
+
+    fibonacciMatrix := matrix{a: 1, b: 1, c: 1}
+    return power(fibonacciMatrix, n).b
+}
+```
+
+The identity matrix starts the accumulated result at `A⁰`. After the
+loop, the top-right value of the resulting matrix is `F(n)`.
+
 That brings the complexity down to:
 
 ``` text
@@ -544,6 +588,36 @@ F(2k+1) = F(k+1)² + F(k)²
 ```
 
 This lets us recursively halve the problem size.
+
+The implementation returns two consecutive values, `F(n)` and
+`F(n+1)`, because each doubling formula needs both:
+
+``` go
+func fib(n int) int {
+    value, _ := fibPair(n)
+    return value
+}
+
+func fibPair(n int) (int, int) {
+    if n == 0 {
+        return 0, 1
+    }
+
+    a, b := fibPair(n / 2)
+
+    c := a * (2*b - a) // F(2k)
+    d := a*a + b*b     // F(2k+1)
+
+    if n%2 == 0 {
+        return c, d
+    }
+
+    return d, c + d
+}
+```
+
+Each recursive call cuts `n` in half, and each level performs only a
+constant amount of work.
 
 So instead of:
 
