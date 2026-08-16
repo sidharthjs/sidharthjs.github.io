@@ -5,7 +5,7 @@ categories: [Algorithms, Dynamic Programming]
 tags: [fibonacci, dynamic-programming, go, recursion, iteration]
 description: "A deliberately overengineered tour of Fibonacci that separates top-down and bottom-up thinking from recursion and iteration."
 image:
-  path: /assets/img/posts/fibonacci-in-every-wrong-way-possible-cover.png
+  path: /assets/img/posts/fibonacci-in-every-wrong-way-possible-cover-v2.png
   alt: Fibonacci in Every Wrong Way Possible, one sequence and fourteen questionable implementations
 ---
 
