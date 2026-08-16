@@ -895,18 +895,78 @@ But now we've seen that those are independent dimensions.
 
 So let's deliberately cross the streams.
 
-### Top-down + iteration
+``` go
+func fib(n int) int {
+    if n <= 1 {
+        return n
+    }
+
+    // Phase 1: discover dependencies top-down with iteration.
+    needed := make([]bool, n+1)
+    stack := []int{n}
+
+    for len(stack) > 0 {
+        x := stack[len(stack)-1]
+        stack = stack[:len(stack)-1]
+
+        if needed[x] {
+            continue
+        }
+
+        needed[x] = true
+
+        if x > 1 {
+            stack = append(stack, x-1, x-2)
+        }
+    }
+
+    // Phase 2: evaluate discovered states bottom-up with recursion.
+    values := make([]int, n+1)
+    values[1] = 1
+
+    var build func(int)
+    build = func(i int) {
+        if i > n {
+            return
+        }
+
+        if needed[i] {
+            values[i] = values[i-1] + values[i-2]
+        }
+
+        build(i + 1)
+    }
+
+    build(2)
+    return values[n]
+}
+```
+
+### Phase 1: top-down + iteration
 
 Use an explicit stack.
 
 The stack simulates the recursive call stack while still starting from
-the target and descending into dependencies.
+the target and descending into dependencies. It records every state
+required to calculate `fib(n)`.
 
-### Bottom-up + recursion
+### Phase 2: bottom-up + recursion
 
-Use recursion to advance through the states in increasing order.
+The recursive `build` function advances through those states in
+increasing order, so `values[i-1]` and `values[i-2]` are ready before
+`values[i]` is calculated.
 
 The recursion is merely acting as a loop.
+
+For Fibonacci, the discovery phase predictably marks every state from
+`0` through `n`, making the entire first phase unnecessary. That is not
+an optimization. It is two independent ideas forced into one function
+to prove that they can coexist.
+
+Complexity:
+
+- **Time:** `O(n)`
+- **Space:** `O(n)` for the stack, state slices, and recursive call stack
 
 Put those ideas together and the final lesson becomes obvious:
 
@@ -1025,7 +1085,7 @@ They're just natural pairings.
 | 11 | Goroutines | Exponential work | Exponential-ish overhead | 💀 |
 | 12 | Infinite channel | O(n) to consume n values | O(1) state | 🌀 |
 | 13 | Mutual recursion | O(φⁿ) | O(n) | 🫠 |
-| 14 | Top-down iteration + bottom-up recursion | Depends on implementation | Depends on implementation | ☠️ |
+| 14 | Top-down iteration + bottom-up recursion | O(n) | O(n) | ☠️ |
 
 \* Binet's formula is not reliably exact for arbitrarily large integers
 because of floating-point precision.
