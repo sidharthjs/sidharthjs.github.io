@@ -16,7 +16,7 @@ timezone:
 
 title: Sidharth J # the main title
 
-tagline: Senior Software Engineer # it will display as the subtitle
+tagline: Software Engineer # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -85,8 +85,8 @@ pageviews:
 #
 # Available options:
 #
-#     light — Use the light color scheme
-#     dark — Use the dark color scheme
+#     light - Use the light color scheme
+#     dark - Use the dark color scheme
 #
 theme_mode: # [light | dark]
 

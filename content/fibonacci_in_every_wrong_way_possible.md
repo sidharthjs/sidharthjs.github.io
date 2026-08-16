@@ -1,11 +1,4 @@
----
-title: Fibonacci in Every Wrong Way Possible
-date: 2026-08-13 00:00:00 +0530
-categories: [Algorithms, Dynamic Programming]
-tags: [fibonacci, dynamic-programming, go, recursion, iteration]
-description: "A deliberately overengineered tour of Fibonacci that separates top-down and bottom-up thinking from recursion and iteration."
----
-
+# Fibonacci in Every Wrong Way Possible
 
 > **Top-Down Iteration and Bottom-Up Recursion: Crimes Against Dynamic
 > Programming**
