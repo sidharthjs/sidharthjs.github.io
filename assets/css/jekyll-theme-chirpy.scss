@@ -1,0 +1,23 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* Center the theme selector when no contact links are visible. */
+#sidebar .sidebar-bottom:not(:has(> a)) {
+  justify-content: center;
+  padding-inline: 1rem;
+}
+
+#sidebar .sidebar-bottom .icon-border:last-child {
+  display: none;
+}

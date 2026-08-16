@@ -5,12 +5,12 @@ order: 4
 ---
 
 
-Hi, I’m **Sidharth J**, a **Senior Software Engineer at Siemens** with over **7 years of experience** designing and building scalable software solutions.
+Hi, I’m Sidharth.
 
-I specialize in **Go (Golang)** and **distributed systems**, with a focus on creating high-performance, resilient, and maintainable backend services. In my current role at Siemens, I work on **sustainability-focused applications** that leverage distributed architectures to process and analyze data at scale — helping organizations make smarter, greener decisions.
+I’m a software engineer who enjoys building things and thinking about software.
 
-Before Siemens, I worked as a **Platform Engineer**, gaining hands-on experience in building and maintaining robust infrastructure, automation, and developer platforms. This background allows me to bridge the gap between application development and infrastructure, ensuring smooth deployments and reliable operations at scale.
+After a few quiet years, I’m starting again, writing about Go, backend engineering, distributed systems, system design, and whatever has my attention.
 
-Beyond my day-to-day work, I’m passionate about clean code, system design, and sharing knowledge through technical writing. My goal with this site is to showcase my work, explore new ideas in backend engineering, and contribute back to the developer community.
+No grand plan. Just ideas worth putting down.
 
-If you’re interested in **Go, distributed systems, platform engineering, or sustainable tech**, you’re in the right place - welcome!
+Starting fresh.

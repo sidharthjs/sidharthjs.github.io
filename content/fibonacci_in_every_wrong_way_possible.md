@@ -986,45 +986,24 @@ They're just natural pairings.
 
 ------------------------------------------------------------------------
 
-# The Fibonacci Descent Into Madness
+## The Fibonacci Descent Into Madness
 
-  -------------------------------------------------------------------------------------
-  \#           Approach                             Time             Space Sanity
-  ------------ ------------------------ ---------------- ----------------- ------------
-  1            Naive recursion                     O(φⁿ)              O(n) 😀
-
-  2            Top-down DP                          O(n)              O(n) 🙂
-
-  3            Bottom-up DP                         O(n)              O(n) 🙂
-
-  4            Top-down + explicit                  O(n)              O(n) 🤨
-               stack                                                       
-
-  5            Bottom-up + recursion                O(n)              O(n) 🤔
-
-  6            Tail-recursive bottom-up             O(n)  O(n) stack in Go 😬
-
-  7            Matrix exponentiation            O(log n)              O(1) 🧠
-
-  8            Fast doubling                    O(log n)          O(log n) 🚀
-                                                                 recursive 
-
-  9            Binet's formula                  \~O(1)\*              O(1) ⚠️
-
-  10           Compile-time/generated        O(1) lookup      O(1) runtime 🤡
-               constants                                                   
-
-  11           Goroutines               Exponential work   Exponential-ish 💀
-                                                                  overhead 
-
-  12           Infinite channel          O(n) to consume        O(1) state 🌀
-                                                n values                   
-
-  13           Mutual recursion                    O(φⁿ)              O(n) 🫠
-
-  14           Top-down iteration +           Depends on        Depends on ☠️
-               bottom-up recursion        implementation    implementation 
-  -------------------------------------------------------------------------------------
+| # | Approach | Time | Space | Sanity |
+|---:|---|---:|---:|:---:|
+| 1 | Naive recursion | O(φⁿ) | O(n) | 😀 |
+| 2 | Top-down DP | O(n) | O(n) | 🙂 |
+| 3 | Bottom-up DP | O(n) | O(n) | 🙂 |
+| 4 | Top-down + explicit stack | O(n) | O(n) | 🤨 |
+| 5 | Bottom-up + recursion | O(n) | O(n) | 🤔 |
+| 6 | Tail-recursive bottom-up | O(n) | O(n) stack in Go | 😬 |
+| 7 | Matrix exponentiation | O(log n) | O(1) | 🧠 |
+| 8 | Fast doubling | O(log n) | O(log n) recursive | 🚀 |
+| 9 | Binet's formula | ~O(1)* | O(1) | ⚠️ |
+| 10 | Compile-time/generated constants | O(1) lookup | O(1) runtime | 🤡 |
+| 11 | Goroutines | Exponential work | Exponential-ish overhead | 💀 |
+| 12 | Infinite channel | O(n) to consume n values | O(1) state | 🌀 |
+| 13 | Mutual recursion | O(φⁿ) | O(n) | 🫠 |
+| 14 | Top-down iteration + bottom-up recursion | Depends on implementation | Depends on implementation | ☠️ |
 
 \* Binet's formula is not reliably exact for arbitrarily large integers
 because of floating-point precision.
