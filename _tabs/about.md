@@ -7,7 +7,7 @@ order: 4
 
 Hi, I’m Sidharth.
 
-I’m a software engineer who enjoys building things and thinking about software.
+I’m a software engineer who likes turning ideas into well-designed systems.
 
 After a few quiet years, I’m starting again, writing about Go, backend engineering, distributed systems, system design, and whatever has my attention.
 
