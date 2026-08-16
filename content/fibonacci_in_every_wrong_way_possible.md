@@ -3,12 +3,14 @@
 > **Top-Down Iteration and Bottom-Up Recursion: Crimes Against Dynamic
 > Programming**
 
-I started with a very innocent goal: solve Fibonacci on LeetCode.
+I picked Fibonacci as a deliberately simple playground for exploring a
+larger idea.
 
-Somehow, that turned into an investigation into recursion, iteration,
-dynamic programming, explicit stacks, matrix algebra, floating-point
-arithmetic, goroutines, channels, and the questionable things a
-programmer can do when nobody takes the keyboard away.
+The recurrence is familiar enough to stay out of the way, but flexible
+enough to demonstrate recursion, iteration, dynamic programming,
+explicit stacks, matrix algebra, floating-point arithmetic, goroutines,
+channels, and the questionable things a programmer can do when nobody
+takes the keyboard away.
 
 This is not a guide to the *best* way to calculate Fibonacci.
 
@@ -29,7 +31,7 @@ Let's commit some crimes.
 
 ------------------------------------------------------------------------
 
-## 1. Naive Recursion --- The Innocent Beginning
+## 1. Naive Recursion: The Innocent Beginning
 
 We begin with the most obvious definition of Fibonacci:
 
@@ -88,7 +90,7 @@ And that leads us to the obvious question:
 
 ------------------------------------------------------------------------
 
-## 2. Top-Down DP --- Memoization
+## 2. Top-Down DP: Memoization
 
 The recursive solution already tells us something important:
 
@@ -159,7 +161,7 @@ Right?
 
 ------------------------------------------------------------------------
 
-## 3. Bottom-Up DP --- The Textbook Approach
+## 3. Bottom-Up DP: The Textbook Approach
 
 Instead of starting at `fib(n)` and recursively going down, why not
 start at the smallest states and build our way up?
@@ -223,7 +225,7 @@ I only need the previous two values.
 
 ------------------------------------------------------------------------
 
-## 4. Top-Down DP With an Explicit Stack --- "I Don't Trust the Runtime"
+## 4. Top-Down DP With an Explicit Stack: "I Don't Trust the Runtime"
 
 Here's where things start getting weird.
 
@@ -316,7 +318,7 @@ looking less absolute.
 
 ------------------------------------------------------------------------
 
-## 5. Bottom-Up DP With Recursion --- "Loops Are for Mortals"
+## 5. Bottom-Up DP With Recursion: "Loops Are for Mortals"
 
 Now let's commit the opposite crime.
 
@@ -389,7 +391,7 @@ Good.
 
 ------------------------------------------------------------------------
 
-## 6. Tail-Recursive Bottom-Up With O(1) DP State --- "Go Won't Optimize This, But I Will"
+## 6. Tail-Recursive Bottom-Up With O(1) DP State: "Go Won't Optimize This, But I Will"
 
 We already discovered that the entire DP array isn't necessary.
 
@@ -456,7 +458,7 @@ Outstanding work.
 
 ------------------------------------------------------------------------
 
-# 7. Matrix Exponentiation --- "Linear Time Is Too Mainstream"
+## 7. Matrix Exponentiation: "Linear Time Is Too Mainstream"
 
 At this point, `O(n)` has started to feel embarrassing.
 
@@ -505,7 +507,7 @@ entered:
 
 ------------------------------------------------------------------------
 
-# 8. Fast Doubling --- "O(log n), Because Why Not?"
+## 8. Fast Doubling: "O(log n), Because Why Not?"
 
 Matrix exponentiation isn't the only way to get logarithmic time.
 
@@ -567,7 +569,7 @@ It's become a mathematical arms race.
 
 ------------------------------------------------------------------------
 
-# 9. Binet's Formula --- "Floating-Point Errors Are Just a Social Construct"
+## 9. Binet's Formula: "Floating-Point Errors Are Just a Social Construct"
 
 Or...
 
@@ -625,20 +627,26 @@ traversing the Fibonacci sequence.**
 
 ------------------------------------------------------------------------
 
-# 10. Compile-Time Fibonacci --- "Why Compute at Runtime?"
+## 10. Compile-Time Fibonacci: "Why Compute at Runtime?"
 
 Now let's ask an even more questionable question:
 
 > Why calculate Fibonacci when the program runs?
 
-If the input is known at compile time, the answer can simply be
-generated ahead of time.
+The specific input is not known at compile time, but the entire input
+range is. LeetCode constrains `n` to `0 <= n <= 30`, which gives us only
+31 possible inputs. We can generate the answer for every valid case
+ahead of time and cover the whole problem with a lookup.
+
+So yes, this is effectively a hardcoded approach. The only distinction
+is that a generator can produce the constants and switch cases for us
+instead of making us type them by hand.
 
 Go does not have C++-style general `constexpr` function evaluation, so
 there isn't a magic recursive Fibonacci function that the Go compiler
 evaluates for us.
 
-But we can generate Fibonacci constants as source code:
+We can generate Fibonacci constants as source code:
 
 ``` go
 const (
@@ -679,6 +687,10 @@ func fib(n int) int {
 }
 ```
 
+For the LeetCode constraints, the omitted cases continue through
+`Fib30`, so the `default` branch is only for inputs outside the allowed
+range.
+
 Technically, we've moved the computation outside runtime execution.
 
 The runtime complexity of the lookup is effectively constant.
@@ -693,7 +705,7 @@ This is the programming equivalent of hiding the body under the carpet.
 
 ------------------------------------------------------------------------
 
-# 11. Concurrent Fibonacci With Goroutines --- "Let's Make It Slower in Parallel"
+## 11. Concurrent Fibonacci With Goroutines: "Let's Make It Slower in Parallel"
 
 Naive Fibonacci already does a huge amount of redundant work.
 
@@ -743,7 +755,7 @@ Sometimes it just lets you make the bad algorithm more complicated.
 
 ------------------------------------------------------------------------
 
-# 12. Infinite Channel of Fibonacci Numbers --- "Functional Programming in Go, Badly"
+## 12. Infinite Fibonacci Channel: "A Lazy Stream With a Goroutine"
 
 What if we don't even ask for a particular Fibonacci number?
 
@@ -791,8 +803,8 @@ Output:
 34
 ```
 
-This isn't really an efficient way to solve the original LeetCode
-problem.
+This isn't really an efficient way to calculate a particular Fibonacci
+number.
 
 We don't need the first `n` numbers if all we want is `F(n)`.
 
@@ -808,7 +820,7 @@ For a sequence containing two integers.
 
 ------------------------------------------------------------------------
 
-# 13. Mutual Recursion --- "One Function Wasn't Enough"
+## 13. Mutual Recursion: "One Function Wasn't Enough"
 
 One recursive function was apparently too conventional.
 
@@ -858,7 +870,7 @@ We just added organizational overhead for the sake of the blog.
 
 ------------------------------------------------------------------------
 
-# 14. Top-Down Iteration + Bottom-Up Recursion --- "I Have Become Stack, Destroyer of Loops"
+## 14. Top-Down Iteration + Bottom-Up Recursion: "I Have Become Stack, Destroyer of Loops"
 
 And now we reach the final boss.
 
@@ -926,7 +938,7 @@ And that is the whole point of this ridiculous exercise.
 
 ------------------------------------------------------------------------
 
-# What Did We Actually Learn?
+## What Did We Actually Learn?
 
 After all of this nonsense, Fibonacci itself isn't the interesting part
 anymore.
@@ -934,7 +946,7 @@ anymore.
 The interesting part is separating concepts that we normally learn
 together.
 
-## Top-down vs. bottom-up
+### Top-down vs. bottom-up
 
 This describes **the direction in which we traverse the dependency
 graph**.
@@ -964,7 +976,7 @@ F(0), F(1)
    F(n)
 ```
 
-## Recursion vs. iteration
+### Recursion vs. iteration
 
 This describes **how we implement the traversal**.
 
@@ -1010,13 +1022,13 @@ because of floating-point precision.
 
 ------------------------------------------------------------------------
 
-# The Actual Takeaway
+## The Actual Takeaway
 
-I started with a Fibonacci problem.
+I chose Fibonacci because the problem is small and familiar enough to
+let the implementation choices take center stage.
 
-I expected to learn dynamic programming.
-
-Instead, I ended up learning something more interesting:
+The point was never the sequence itself. It was to use one simple
+recurrence to demonstrate something more interesting:
 
 **An algorithmic concept and the mechanism used to implement it don't
 have to be the same thing.**
@@ -1052,7 +1064,7 @@ At that point, someone should probably take away my keyboard.
 
 The funny thing is that none of these implementations were necessary.
 
-For the original problem, this is probably all you need:
+For practical use, this is probably all you need:
 
 ``` go
 func fib(n int) int {
