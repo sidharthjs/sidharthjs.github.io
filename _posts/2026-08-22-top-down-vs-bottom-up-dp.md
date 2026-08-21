@@ -5,8 +5,8 @@ categories: [Algorithms, Dynamic Programming]
 tags: [dynamic-programming, top-down, bottom-up, memoization, tabulation]
 description: "Why top-down dynamic programming often feels easier to derive, where bottom-up wins, and how both evaluate the same dependency structure."
 image:
-  path: /assets/img/posts/top-down-vs-bottom-up-dp-cover.png
-  alt: Top-down dependency tree and bottom-up DP construction converging on the same answer
+  path: /assets/img/posts/top-down-vs-bottom-up-dp-cover-v2.png
+  alt: A direct top-down decision path contrasted with the tables and setup required for bottom-up DP
 ---
 
 Dynamic programming is usually introduced as two techniques:
