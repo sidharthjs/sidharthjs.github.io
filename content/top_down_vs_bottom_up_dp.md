@@ -1,4 +1,4 @@
-# Top-Down vs Bottom-Up DP: Which One Actually Wins?
+# Why Top-Down DP Feels Easier to Derive
 
 You solve a dynamic programming problem, understand the bottom-up table, and implement it successfully.
 

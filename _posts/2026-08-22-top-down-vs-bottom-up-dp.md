@@ -1,5 +1,5 @@
 ---
-title: "Top-Down vs Bottom-Up DP: Which One Actually Wins?"
+title: "Why Top-Down DP Feels Easier to Derive"
 date: 2026-08-22 00:00:00 +0530
 categories: [Algorithms, Dynamic Programming]
 tags: [dynamic-programming, top-down, bottom-up, memoization, tabulation, lcs]
