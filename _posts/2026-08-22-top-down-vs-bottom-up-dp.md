@@ -94,16 +94,7 @@ This is a two-dimensional DP problem because every unique subproblem is identifi
 
 After evaluating `solve(0, 0)` for `"abcde"` and `"ace"`, the memo table looks like this:
 
-```text
-          j →   0   1   2
-               a   c   e
-          ┌───────────────
-i = 0  a  │     3  -   -
-i = 1  b  │     -  2   1
-i = 2  c  │     -  2   1
-i = 3  d  │     -  -   1
-i = 4  e  │     -  -   1
-```
+<img src="/assets/img/posts/lcs-top-down-memo-table.png" alt="Hand-drawn top-down LCS memoization table" width="500">
 
 Each number is the answer for `solve(i, j)`. A `-` means that state was never requested, so it was never computed. The table is only storage for questions the recursion has already asked; it does not determine how the solution is derived.
 
@@ -134,17 +125,7 @@ dp[i][j] = LCS of the strings starting at positions i and j
 
 For the same example, a completed bottom-up solution is often presented as this table:
 
-```text
-          j →   0   1   2   3
-               a   c   e  ""
-          ┌───────────────────
-i = 0  a  │     3   2   1   0
-i = 1  b  │     2   2   1   0
-i = 2  c  │     2   2   1   0
-i = 3  d  │     1   1   1   0
-i = 4  e  │     1   1   1   0
-i = 5 ""  │     0   0   0   0
-```
+<img src="/assets/img/posts/lcs-bottom-up-table.png" alt="Hand-drawn bottom-up LCS table for abcde and ace" width="500">
 
 Because the top-down solution has already revealed the state and its dimensions, this table is easy to recognize. But if we had started by trying to solve the problem bottom-up, arriving at this table would require answering several questions first:
 
@@ -200,7 +181,9 @@ Both solve the same dependency structure. Top-down explores the states it needs 
 
 ## Why Bottom-Up Is Still Worth Learning
 
-Optimization is one important answer, but it is not the only one. Bottom-up makes the evaluation order explicit. That avoids recursion-stack limits and function-call overhead, provides predictable memory access, and often improves locality when most or all states must be computed.
+Optimization is one important answer, but it is not the only one. Bottom-up makes the evaluation order explicit. It also avoids function-call overhead, provides predictable memory access, and often improves locality when most or all states must be computed.
+
+Top-down uses the program's call stack, so sufficiently deep state transitions can hit recursion-depth or stack limits. Bottom-up avoids that class of problem by evaluating the states iteratively.
 
 The explicit table also makes space optimization easier to see.
 
@@ -226,11 +209,7 @@ we can keep only the next suffix row and the row currently being built:
 
 During the final iteration, when `i = 0`, the two rows in memory are:
 
-```text
-                    a  c  e  ""
-next  ("bcde")       2  2  1   0
-curr  ("abcde")      3  2  1   0
-```
+<img src="/assets/img/posts/lcs-space-optimized-table.png" alt="Hand-drawn two-row space-optimized LCS table" width="560">
 
 `curr[j]` uses values from `next` and the value immediately to its right in `curr`. Once `curr` is complete, it becomes the next row used by the following iteration. The old `next` row can be overwritten because no future state needs it.
 
