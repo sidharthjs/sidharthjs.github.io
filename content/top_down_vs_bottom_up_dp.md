@@ -63,7 +63,7 @@ Yes → Count the character and move forward in both strings
 No  → Do not count either character yet. Move forward in one string at a time and keep the better answer
 ```
 
-This mirrors how humans naturally reason about a problem: start with the main question, then ask what is needed to achieve the answer. We begin with the target state, `solve(0, 0)`, and ask for the smaller states needed to answer it. We do not need to start by listing every base state or deciding how an entire table should be traversed.
+This often mirrors how we naturally reason about a problem: start with the main question, then ask what smaller answers are needed to resolve it. We begin with the target state, `solve(0, 0)`, and ask for the smaller states needed to answer it. We do not need to start by listing every base state or deciding how an entire table should be traversed.
 
 The call stack also handles the dependency order for us. When `solve(i, j)` needs another state, it calls that state and waits for its answer before continuing. The base cases still need to be defined, but there is no need to arrange all subproblems into a global evaluation order or design nested loops before writing the recurrence.
 
