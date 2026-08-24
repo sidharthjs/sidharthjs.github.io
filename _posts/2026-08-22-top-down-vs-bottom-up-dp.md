@@ -3,7 +3,7 @@ title: "Why Top-Down DP Feels Easier to Derive"
 date: 2026-08-22 00:00:00 +0530
 categories: [Algorithms, Dynamic Programming]
 tags: [dynamic-programming, top-down, bottom-up, memoization, tabulation, lcs]
-description: "Why top-down DP solutions are often easier to derive and remember, and how bottom-up provides more control and optimization opportunities."
+description: "Why top-down DP solutions are often easier to derive and remember, while bottom-up provides more control and opportunities for optimization."
 image:
   path: /assets/img/posts/top-down-vs-bottom-up-dp-cover-v3.png
   alt: A programmer easily retracing a top-down solution while struggling to derive a bottom-up DP table
