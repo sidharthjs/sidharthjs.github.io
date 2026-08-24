@@ -7,10 +7,16 @@ order: 4
 
 Hi, I’m Sidharth.
 
-I’m a software engineer who likes turning ideas into well-designed systems.
+I build software. Mostly backend systems, distributed architectures, and the machinery behind them.
 
-After a few quiet years, I’m starting again, writing about Go, backend engineering, distributed systems, system design, and whatever has my attention.
+After a few quiet years, I’m booting things back up.
 
-No grand plan. Just ideas worth putting down.
+Expect Go, backend engineering, distributed systems, system design, architectural rabbit holes, and whatever else is interesting enough to occupy my CPU cycles.
 
-Starting fresh.
+No grand roadmap.
+
+Just:
+
+learn → build → understand → write → repeat
+
+**Back online.**
