@@ -3,7 +3,7 @@ title: "Why Top-Down DP Feels Easier to Derive"
 date: 2026-08-22 00:00:00 +0530
 categories: [Algorithms, Dynamic Programming]
 tags: [dynamic-programming, top-down, bottom-up, memoization, tabulation, lcs]
-description: "Why top-down DP solutions are often easier to derive and remember, and where bottom-up still wins through control and optimization."
+description: "Why top-down DP solutions are often easier to derive and remember, and how bottom-up provides more control and optimization opportunities."
 image:
   path: /assets/img/posts/top-down-vs-bottom-up-dp-cover-v3.png
   alt: A programmer easily retracing a top-down solution while struggling to derive a bottom-up DP table
@@ -40,6 +40,8 @@ A top-down state can be written as:
 solve(i, j)
 ```
 
+Here, `i` represents a position in `text1`, and `j` represents a position in `text2`. Both start at `0`, so the initial state is `solve(0, 0)`.
+
 It asks:
 
 > What is the LCS of the two strings starting at positions `i` and `j`?
@@ -66,9 +68,13 @@ The state and recurrence follow directly from the question:
 ```text
 Do the current characters match?
 
-Yes → count the character and move forward in both strings
-No  → do not count either character yet; move forward in one string at a time and keep the better answer
+Yes → Count the character and move forward in both strings
+No  → Do not count either character yet. Move forward in one string at a time and keep the better answer
 ```
+
+This mirrors how humans naturally reason about a problem: start with the main question, then ask what is needed to achieve the answer. We begin with the target state, `solve(0, 0)`, and ask for the smaller states needed to answer it. We do not need to start by listing every base state or deciding how an entire table should be traversed.
+
+The call stack also handles the dependency order for us. When `solve(i, j)` needs another state, it calls that state and waits for its answer before continuing. The base cases still need to be defined, but there is no need to arrange all subproblems into a global evaluation order or design nested loops before writing the recurrence.
 
 The recursive solution will calculate the same `(i, j)` states more than once, so the next step is to store their answers.
 
@@ -78,7 +84,7 @@ The memoization table also follows naturally from the state:
 memo[i][j] = answer to solve(i, j)
 ```
 
-The state has two changing values: `i`, a position in `text1`, and `j`, a position in `text2`. So the memo table obviously needs two dimensions:
+The state has two changing values: `i`, a position in `text1`, and `j`, a position in `text2`. That makes the table dimensions obvious. This is a two-dimensional DP with one axis for `i` and another for `j`:
 
 ```go
 memo := make([][]int, len(text1))
@@ -90,13 +96,11 @@ for i := range memo {
 }
 ```
 
-This is a two-dimensional DP problem because every unique subproblem is identified by the pair `(i, j)`. The table dimensions were not invented separately; they came directly from the question represented by `solve(i, j)`.
-
 After evaluating `solve(0, 0)` for `"abcde"` and `"ace"`, the memo table looks like this:
 
 <img src="/assets/img/posts/lcs-top-down-memo-table.png" alt="Hand-drawn top-down LCS memoization table" width="500">
 
-Each number is the answer for `solve(i, j)`. A `-` means that state was never requested, so it was never computed. The table is only storage for questions the recursion has already asked; it does not determine how the solution is derived.
+Each number is the answer for `solve(i, j)`. A `-` means that state was never requested, so it was never computed. The table is only storage for questions the recursion has already asked. It does not determine how the solution is derived.
 
 ### Complexity
 
@@ -129,6 +133,7 @@ For the same example, a completed bottom-up solution is often presented as this 
 
 Because the top-down solution has already revealed the state and its dimensions, this table is easy to recognize. But if we had started by trying to solve the problem bottom-up, arriving at this table would require answering several questions first:
 
+- whether this should be a one-dimensional or two-dimensional DP
 - why an extra row and column are needed
 - what values represent the empty-string base cases
 - which neighboring cells each state depends on
@@ -141,14 +146,18 @@ These decisions are not hidden requirements of bottom-up. A careful derivation c
 The top-down recurrence gives us the dependencies, but bottom-up still requires turning those dependencies into a global evaluation order where every required state is ready first:
 
 ```go
-for i := m - 1; i >= 0; i-- {
-    for j := n - 1; j >= 0; j-- {
+i := m - 1
+for i >= 0 {
+    j := n - 1
+    for j >= 0 {
         if text1[i] == text2[j] {
             dp[i][j] = 1 + dp[i+1][j+1]
         } else {
             dp[i][j] = max(dp[i+1][j], dp[i][j+1])
         }
+        j--
     }
+    i--
 }
 ```
 
@@ -166,7 +175,7 @@ Understanding this completed table is not the same as knowing how to derive it. 
 Top-down asks:
 
 ```text
-What answer do I need from these positions?
+What is the LCS from these two positions onward?
 ```
 
 Bottom-up takes the same question and asks:
@@ -175,15 +184,15 @@ Bottom-up takes the same question and asks:
 In what order must every answer be computed?
 ```
 
-Both solve the same dependency structure. Top-down explores the states it needs on demand; bottom-up chooses an explicit order in which to evaluate the required states.
+Both solve the same dependency structure. Top-down explores the states it needs on demand. Bottom-up chooses an explicit order in which to evaluate the required states.
 
 ---
 
 ## Why Bottom-Up Is Still Worth Learning
 
-Optimization is one important answer, but it is not the only one. Bottom-up makes the evaluation order explicit. It also avoids function-call overhead, provides predictable memory access, and often improves locality when most or all states must be computed.
+So why use bottom-up? Once the evaluation order is explicit, it becomes easier to avoid recursion overhead and optimize how the states are stored.
 
-Top-down uses the program's call stack, so sufficiently deep state transitions can hit recursion-depth or stack limits. Bottom-up avoids that class of problem by evaluating the states iteratively.
+Top-down uses the program's call stack, so sufficiently deep state transitions can hit recursion-depth or stack limits and may eventually result in a stack overflow error. Bottom-up avoids that class of problem by evaluating the states iteratively.
 
 The explicit table also makes space optimization easier to see.
 
@@ -217,16 +226,20 @@ During the final iteration, when `i = 0`, the two rows in memory are:
 next := make([]int, n+1)
 curr := make([]int, n+1)
 
-for i := m - 1; i >= 0; i-- {
-    for j := n - 1; j >= 0; j-- {
+i := m - 1
+for i >= 0 {
+    j := n - 1
+    for j >= 0 {
         if text1[i] == text2[j] {
             curr[j] = 1 + next[j+1]
         } else {
             curr[j] = max(next[j], curr[j+1])
         }
+        j--
     }
 
     next, curr = curr, next
+    i--
 }
 
 return next[0]
@@ -249,9 +262,9 @@ The table may not be the most natural place to discover the solution, but it is 
 
 ## The Takeaway
 
-A top-down solution is often easier to arrive at because it begins with the question the problem is asking. When the state maps cleanly to the original question, turning that question into a recursive function often makes the recurrence emerge naturally. Because the code preserves that reasoning, the solution is also easier to reconstruct later.
+A top-down solution is often easier to arrive at because it begins with the question the problem is asking. When the state maps cleanly to the original question, turning that question into a recursive function often makes the recurrence emerge naturally because it matches how humans break a problem into smaller questions. The code preserves that reasoning, which can also make the solution easier to reconstruct later.
 
-A bottom-up table is different. Once the table and transition are explained, the solution may be easy to understand. Deriving that table in the first place is the difficult part. Without remembering a similar solution, it may not be obvious what the table should represent, how large it should be, how it should be initialized, or in which direction it should be filled.
+A bottom-up table is different. Once the table and transition are explained, the solution may be easy to understand. Deriving that table in the first place is the difficult part. Without remembering a similar solution, it may not be obvious what the table should represent, how many dimensions it needs, how large it should be, how it should be initialized, or in which direction it should be filled.
 
 Bottom-up becomes valuable when explicit evaluation order matters: avoiding recursion limits, reducing call overhead, improving memory locality, computing all states efficiently, or compressing the table.
 
