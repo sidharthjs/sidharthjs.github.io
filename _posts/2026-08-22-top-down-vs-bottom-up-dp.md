@@ -9,11 +9,11 @@ image:
   alt: A programmer easily retracing a top-down solution while struggling to derive a bottom-up DP table
 ---
 
-You solve a dynamic programming problem, understand the bottom-up table, and implement it successfully.
+You solve a dynamic programming problem using a bottom-up approach, understand the table, and implement the solution successfully.
 
 A few days later, you return to the same problem. You remember that there was a table. You vaguely remember its dimensions. But deriving it again from scratch feels surprisingly difficult.
 
-Top-down can be easier to reconstruct later because the implementation often preserves the reasoning that led to the recurrence. This is not because recursion is inherently better.
+However, top-down can be easier to reconstruct later not because recursion is inherently better, but because the implementation often preserves the reasoning that led to the recurrence.
 
 A useful way to describe the intuition is:
 
